@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Physics
 {
-	public abstract class AbstractRigidbodyMovementSystem : AbstractMovementSystem
+	public abstract class AbstractRigidbody2DMovementSystem : AbstractMovementSystem
 	{
 		#region Constants
 

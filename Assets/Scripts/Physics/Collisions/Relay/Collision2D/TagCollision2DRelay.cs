@@ -1,8 +1,9 @@
+using Physics.Collisions.Relay.Tag;
 using UnityEngine;
 
-namespace Physics.Collisions.Relay
+namespace Physics.Collisions.Relay.Collision2D
 {
-	public class TagCollisionRelay : CollisionRelay
+	public class TagCollision2DRelay : Collision2DRelay
 	{
 		#region SerializeFields
 
@@ -12,7 +13,7 @@ namespace Physics.Collisions.Relay
 
 		#region ProtectedMethods
 
-		protected override bool CheckConditions(Collision2D collision2D)
+		protected override bool CheckConditions(UnityEngine.Collision2D collision2D)
 		{
 			return collision2D.CompareTag(m_acceptedTags);
 		}

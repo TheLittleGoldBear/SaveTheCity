@@ -1,4 +1,4 @@
-using Physics.Collisions.Relay;
+using Physics.Collisions.Relay.Trigger2D;
 using Projectile;
 
 namespace Physics.Collisions.DetectionService
@@ -7,8 +7,8 @@ namespace Physics.Collisions.DetectionService
 	{
 		#region Constructors
 
-		public ProjectileDetectionService(TriggerRelay triggerRelay)
-			: base(triggerRelay)
+		public ProjectileDetectionService(Trigger2DRelay trigger2DRelay)
+			: base(trigger2DRelay)
 		{ }
 
 		#endregion

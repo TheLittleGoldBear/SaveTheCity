@@ -1,7 +1,7 @@
-﻿using R;
-using UnityEngine;
+﻿using UnityEngine;
+using Utils.R;
 
-namespace Physics.Collisions.Relay
+namespace Physics.Collisions.Relay.Tag
 {
 	public static class TagExtension
 	{
@@ -20,7 +20,7 @@ namespace Physics.Collisions.Relay
 			return false;
 		}
 
-		public static bool CompareTag(this Collision2D collision2D, ETag[] acceptedTags)
+		public static bool CompareTag(this UnityEngine.Collision2D collision2D, ETag[] acceptedTags)
 		{
 			Rigidbody2D rigidbody2D = collision2D.rigidbody;
 			Collider2D collider2D = collision2D.collider;
@@ -54,8 +54,10 @@ namespace Physics.Collisions.Relay
 		{
 			return tag switch
 			{
-				ETag.Projectile => Tags.PROJECTILE_TAG,
-				ETag.Building => Tags.BUILDING_TAG,
+				ETag.Projectile => R.Tags.PROJECTILE_TAG,
+				ETag.EnemyProjectile => R.Tags.ENEMY_PROJECTILE_TAG,
+				ETag.Building => R.Tags.BUILDING_TAG,
+				ETag.Turret => R.Tags.TURRET_TAG,
 				_ => null
 			};
 		}

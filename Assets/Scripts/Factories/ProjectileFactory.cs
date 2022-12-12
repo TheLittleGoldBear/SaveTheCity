@@ -1,4 +1,5 @@
 using Projectile;
+using Projectile.Events;
 using UnityEngine;
 
 namespace Factories
@@ -13,12 +14,17 @@ namespace Factories
 
 		#region PublicMethods
 
-		public ProjectileSystem CreateProjectileSystem(ProjectilePool projectilePool, Transform root)
+		public ProjectileSystem CreateProjectileSystem(
+			ProjectilePool projectilePool,
+			Transform root,
+			ProjectileEventBus projectileEventBus
+		)
 		{
 			ProjectileSystem projectileSystem = Instantiate(m_projectileSystemPrefab, root);
 
-			projectileSystem.Inject(projectilePool);
-			projectileSystem.OnInitialize();
+			projectileSystem
+				.Inject(projectileEventBus, projectilePool)
+				.Initialize();
 
 			return projectileSystem;
 		}

@@ -34,7 +34,7 @@ namespace Pooling
 		public virtual void OnGetFromPool()
 		{
 			IsInPool = false;
-
+			
 			CallOnGetFromPool();
 			gameObject.SetActive(true);
 		}
@@ -42,19 +42,22 @@ namespace Pooling
 		public virtual void OnInsertToPool()
 		{
 			IsInPool = true;
-
-			gameObject.SetActive(false);
+			
 			CallOnInsertToPool();
+			gameObject.SetActive(false);
 		}
 
 		public virtual void OnReleaseToPool()
 		{
+			IsInPool = true;
+			
+			CallOnReleaseToPool();
+			
 			ReleasedToPool?.Invoke(this);
 			ReleasedToPool = null;
 			
 			gameObject.SetActive(false);
-			IsInPool = true;
-			CallOnReleaseToPool();
+			
 		}
 
 		public virtual void OnPoolShutdown()

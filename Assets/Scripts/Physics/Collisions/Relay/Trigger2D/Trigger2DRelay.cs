@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Physics.Collisions.Relay
+namespace Physics.Collisions.Relay.Trigger2D
 {
-	public class TriggerRelay : AbstractRelay
+	public class Trigger2DRelay : AbstractRelay
 	{
 		#region Events
 

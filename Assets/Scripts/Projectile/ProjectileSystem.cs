@@ -1,18 +1,19 @@
 using Physics;
-using Physics.Collisions.Relay;
+using Physics.Collisions.Relay.Collision2D;
+using Physics.Collisions.Relay.Trigger2D;
 using Pooling;
 using Projectile.Events;
 using UnityEngine;
 
 namespace Projectile
 {
-	public class ProjectileSystem :  AbstractMonoBehaviourPoolable<ProjectilePool>
+	public class ProjectileSystem : AbstractMonoBehaviourPoolable<ProjectilePool>
 	{
 		#region SerializeFields
 
-		[SerializeField] private ProjectileKinematicMovementSystem m_kinematicMovementSystem;
-		[SerializeField] private CollisionRelay m_collisionRelay;
-		[SerializeField] private TriggerRelay m_detectionTriggerRelay;
+		[SerializeField] private ProjectileKinematic2DMovementSystem m_kinematic2DMovementSystem;
+		[SerializeField] private Collision2DRelay m_collision2DRelay;
+		[SerializeField] private Trigger2DRelay m_detectionTrigger2DRelay;
 
 		#endregion
 
@@ -23,54 +24,56 @@ namespace Projectile
 
 		#endregion
 
-		#region UnityMethods
+		#region PublicMethods
+
+		public void Setup(Vector3 goalPosition)
+		{
+			m_kinematic2DMovementSystem.Setup(goalPosition);
+			m_kinematic2DMovementSystem.IsEnabled = true;
+		}
+
+		public void HitExplosion()
+		{
+			m_projectileEventBus.Publish(new ProjectileExplosionEvent(this));
+			ReleaseToPool();
+		}
 		
 
-		public void OnInitialize()
+		#endregion
+
+		// private void OnProjectileReachedGoalPosition(ProjectileExplosionEvent projectileExplosionEvent)
+		// {
+		// 	Explode();
+		// 	
+		// }
+
+		#region UnityMethods
+
+		public void Initialize()
 		{
-			m_projectileEventBus = new ProjectileEventBus();
+			// m_projectileEventBus = new ProjectileEventBus();
 
-			m_projectileExplosionSystem = new ProjectileExplosionSystem(
-				m_projectileEventBus,
-				m_collisionRelay,
-				m_detectionTriggerRelay
-			);
+			m_projectileExplosionSystem = new ProjectileExplosionSystem(m_collision2DRelay, m_detectionTrigger2DRelay);
 
-			m_kinematicMovementSystem.Inject(m_projectileEventBus);
+			m_kinematic2DMovementSystem.Inject(this);
 
-			m_projectileEventBus.Subscribe<ProjectileExplosionEvent>(OnProjectileReachedGoalPosition);
+			// m_projectileEventBus.Subscribe<ProjectileExplosionEvent>(OnProjectileReachedGoalPosition);
+		}
+
+		public ProjectileSystem Inject(ProjectileEventBus projectileEventBus, ProjectilePool projectilePool)
+		{
+			base.Inject(projectilePool);
+
+			m_projectileEventBus = projectileEventBus;
+
+			return this;
 		}
 
 		private void OnDestroy()
 		{
 			m_projectileExplosionSystem.OnTearDown();
-			
-			m_projectileEventBus.Unsubscribe<ProjectileExplosionEvent>(OnProjectileReachedGoalPosition);
-		}
 
-		#endregion
-
-		#region PublicMethods
-
-		public void Setup(Vector3 goalPosition)
-		{
-			m_kinematicMovementSystem.Setup(goalPosition);
-			m_kinematicMovementSystem.IsEnabled = true;
-		}
-
-		public void Explode()
-		{
-			m_projectileExplosionSystem.OnExploded();
-			ReleaseToPool();
-		}
-
-		#endregion
-
-		#region PrivateMethods
-
-		private void OnProjectileReachedGoalPosition(ProjectileExplosionEvent projectileExplosionEvent)
-		{
-			Explode();
+			// m_projectileEventBus.Unsubscribe<ProjectileExplosionEvent>(OnProjectileReachedGoalPosition);
 		}
 
 		#endregion

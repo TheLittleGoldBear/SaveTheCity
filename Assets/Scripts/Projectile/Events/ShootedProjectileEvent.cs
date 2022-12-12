@@ -1,6 +1,6 @@
 namespace Projectile.Events
 {
-	public class ProjectileExplosionEvent : IProjectileEvent
+	public class ShootedProjectileEvent : IProjectileEvent
 	{
 		#region Properties
 
@@ -10,7 +10,7 @@ namespace Projectile.Events
 
 		#region Constructors
 
-		public ProjectileExplosionEvent(ProjectileSystem projectileSystem)
+		public ShootedProjectileEvent(ProjectileSystem projectileSystem)
 		{
 			ProjectileSystem = projectileSystem;
 		}

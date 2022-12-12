@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Physics.Collisions.Relay;
+using Physics.Collisions.Relay.Trigger2D;
 using UnityEngine;
 
 namespace Physics.Collisions.DetectionService
@@ -14,17 +14,17 @@ namespace Physics.Collisions.DetectionService
 
 		#region PrivateFields
 
-		private readonly TriggerRelay m_triggerRelay;
+		private readonly Trigger2DRelay m_trigger2DRelay;
 		private bool m_registeredToEvents;
 
 		#endregion
 
 		#region Constructors
 
-		protected AbstractDetectionService(TriggerRelay triggerRelay)
+		protected AbstractDetectionService(Trigger2DRelay trigger2DRelay)
 		{
 			DetectedObjects = new HashSet<T>();
-			m_triggerRelay = triggerRelay;
+			m_trigger2DRelay = trigger2DRelay;
 
 			RegisterToEvents();
 		}
@@ -49,8 +49,8 @@ namespace Physics.Collisions.DetectionService
 				return;
 			}
 
-			m_triggerRelay.TriggerEnter2D += OnTriggerEntered;
-			m_triggerRelay.TriggerExit2D += OnTriggerExited;
+			m_trigger2DRelay.TriggerEnter2D += OnTrigger2DEntered;
+			m_trigger2DRelay.TriggerExit2D += OnTrigger2DExited;
 
 			m_registeredToEvents = true;
 		}
@@ -62,21 +62,23 @@ namespace Physics.Collisions.DetectionService
 				return;
 			}
 
-			m_triggerRelay.TriggerEnter2D -= OnTriggerEntered;
-			m_triggerRelay.TriggerExit2D -= OnTriggerExited;
+			m_trigger2DRelay.TriggerEnter2D -= OnTrigger2DEntered;
+			m_trigger2DRelay.TriggerExit2D -= OnTrigger2DExited;
 
 			m_registeredToEvents = false;
 		}
 
-		private void OnTriggerEntered(Collider2D collider2D)
+		private void OnTrigger2DEntered(Collider2D collider2D)
 		{
+			;
+
 			if (collider2D.attachedRigidbody.TryGetComponent(out T projectileSystem))
 			{
 				DetectedObjects.Add(projectileSystem);
 			}
 		}
 
-		private void OnTriggerExited(Collider2D collider2D)
+		private void OnTrigger2DExited(Collider2D collider2D)
 		{
 			if (collider2D.attachedRigidbody.TryGetComponent(out T projectileSystem))
 			{

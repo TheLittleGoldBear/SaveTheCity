@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Physics
 {
-	public class KinematicMovementSystem : AbstractRigidbodyMovementSystem
+	public class Kinematic2DMovementSystem : AbstractRigidbody2DMovementSystem
 	{
 		#region ProtectedMethods
 

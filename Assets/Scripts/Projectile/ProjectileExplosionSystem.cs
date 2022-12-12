@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Physics.Collisions.DetectionService;
-using Physics.Collisions.Relay;
+using Physics.Collisions.Relay.Collision2D;
+using Physics.Collisions.Relay.Trigger2D;
 using Projectile.Events;
 using UnityEngine;
 
@@ -12,24 +13,18 @@ namespace Projectile
 		#region PrivateFields
 
 		private ProjectileDetectionService m_projectileDetectionService;
-		private ProjectileEventBus m_projectileEventBus;
-		private CollisionRelay m_collisionRelay;
+		private Collision2DRelay m_collision2DRelay;
 		private bool m_registeredToEvents;
 
 		#endregion
 
 		#region Constructors
 
-		public ProjectileExplosionSystem(
-			ProjectileEventBus projectileEventBus,
-			CollisionRelay collisionRelay,
-			TriggerRelay detectionTriggerRelay
-		)
+		public ProjectileExplosionSystem(Collision2DRelay collision2DRelay, Trigger2DRelay detectionTrigger2DRelay)
 		{
-			m_projectileEventBus = projectileEventBus;
-			m_collisionRelay = collisionRelay;
+			m_collision2DRelay = collision2DRelay;
 
-			m_projectileDetectionService = new ProjectileDetectionService(detectionTriggerRelay);
+			m_projectileDetectionService = new ProjectileDetectionService(detectionTrigger2DRelay);
 
 			RegisterToEvents();
 		}
@@ -45,20 +40,16 @@ namespace Projectile
 			UnregisterFromEvents();
 		}
 
-		public void OnExploded()
+		public void ActiveExplosion()
 		{
-			HashSet<ProjectileSystem> detectedProjectileSystems = m_projectileDetectionService.DetectedObjects;
-
-			if (detectedProjectileSystems.Count == 0)
-			{
-				return;
-			}
-
-			List<ProjectileSystem> detectedProjectileSystemsList = detectedProjectileSystems.ToList();
+			List<ProjectileSystem> detectedProjectileSystemsList =
+				m_projectileDetectionService
+					.DetectedObjects
+					.ToList();
 
 			for (int i = 0; i < detectedProjectileSystemsList.Count; i++)
 			{
-				detectedProjectileSystemsList[i].Explode();
+				// detectedProjectileSystemsList[i].HitExplosion();
 			}
 		}
 
@@ -73,7 +64,7 @@ namespace Projectile
 				return;
 			}
 
-			m_collisionRelay.CollisionEnter2D += OnCollisionEntered;
+			m_collision2DRelay.CollisionEnter2D += OnCollision2DEntered;
 
 			m_registeredToEvents = true;
 		}
@@ -85,15 +76,14 @@ namespace Projectile
 				return;
 			}
 
-			m_collisionRelay.CollisionEnter2D -= OnCollisionEntered;
+			m_collision2DRelay.CollisionEnter2D -= OnCollision2DEntered;
 
 			m_registeredToEvents = false;
 		}
 
-		private void OnCollisionEntered(Collision2D collision2D)
+		private void OnCollision2DEntered(Collision2D collision2D)
 		{
-			m_projectileEventBus.Publish(new ProjectileExplosionEvent());
-			OnExploded();
+			ActiveExplosion();
 		}
 
 		#endregion

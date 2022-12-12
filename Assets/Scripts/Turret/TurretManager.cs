@@ -20,7 +20,7 @@ namespace Turret
 		#region UnityMethods
 
 		
-		public void OnInitialize()
+		public void Initialize()
 		{
 			for (int i = 0; i < m_turretSystems.Count; i++)
 			{
@@ -28,7 +28,18 @@ namespace Turret
 			}
 		}
 
-		
+		public int GetNotUsedProjectile()
+		{
+			int notUsedProjectiles = 0;
+
+			for (int i = 0; i < m_turretSystems.Count; i++)
+			{
+				notUsedProjectiles += m_turretSystems[i].ProjectileCount;
+			}
+
+			return notUsedProjectiles;
+		}
+
 		private void Update()
 		{
 			if (Mouse.current.leftButton.wasPressedThisFrame)

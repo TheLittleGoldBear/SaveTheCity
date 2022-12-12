@@ -1,8 +1,9 @@
+using Physics.Collisions.Relay.Tag;
 using UnityEngine;
 
-namespace Physics.Collisions.Relay
+namespace Physics.Collisions.Relay.Trigger2D
 {
-	public class TagTriggerRelay : TriggerRelay
+	public class TagTrigger2DRelay : Trigger2DRelay
 	{
 		#region SerializeFields
 
