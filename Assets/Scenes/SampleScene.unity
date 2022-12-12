@@ -582,13 +582,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 603159816}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bda4b27f1fcd45c395f52e3be28b6760, type: 3}
+  m_Script: {fileID: 11500000, guid: d2c4ff75fb79464e82be87572e4d15d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_poolRoot: {fileID: 603159817}
-  m_capacity: 3
+  m_capacity: 4
   m_isExpandable: 1
-  m_projectileFactory: {fileID: 896995096}
+  m_enemyProjectileFactory: {fileID: 896995096}
 --- !u!4 &674393884 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8649658002279532524, guid: 8342537e6c8e0314792377e59253a068, type: 3}
@@ -711,7 +711,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 811337143}
-  - component: {fileID: 811337142}
+  - component: {fileID: 811337144}
   m_Layer: 0
   m_Name: ProjectileSpwaner
   m_TagString: Untagged
@@ -719,19 +719,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &811337142
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 811337141}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 455c8f9cf1ed4a06b0239b5e7af5eda4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_projectilePool: {fileID: 1913187807}
 --- !u!4 &811337143
 Transform:
   m_ObjectHideFlags: 0
@@ -747,6 +734,19 @@ Transform:
   m_Father: {fileID: 1162720717}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &811337144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 811337141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0e9cc59c828488c9a3cadf9aed43389, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_enemyProjectilePool: {fileID: 603159818}
 --- !u!1001 &833060326
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -891,10 +891,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 896995094}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60d60595831a47879fd09adeaf2e3b6b, type: 3}
+  m_Script: {fileID: 11500000, guid: 7fc9ea6e7bbd4a01947ad6222fa5c6c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_projectileSystemPrefab: {fileID: 7197428286799720103, guid: a2e39f610b93083498a8ffe6ebbae56d, type: 3}
+  m_enemyProjectileSystemPrefab: {fileID: 7639665419434681036, guid: a2e39f610b93083498a8ffe6ebbae56d, type: 3}
 --- !u!4 &929094330 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8649658002279532524, guid: 8342537e6c8e0314792377e59253a068, type: 3}
@@ -940,7 +940,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60d60595831a47879fd09adeaf2e3b6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_projectileSystemPrefab: {fileID: 5557623090400742894, guid: c0c8859df93159243a09f28c8b37ca75, type: 3}
+  m_projectileSystemPrefab: {fileID: 2028650171097843846, guid: c0c8859df93159243a09f28c8b37ca75, type: 3}
 --- !u!4 &1105573836
 Transform:
   m_ObjectHideFlags: 0
@@ -1261,7 +1261,7 @@ MonoBehaviour:
   - {fileID: 1935715140}
   - {fileID: 750902806}
   m_camera: {fileID: 519420031}
-  m_projectilePool: {fileID: 811337142}
+  m_projectilePool: {fileID: 1656119229}
   m_projectileCount: 3
 --- !u!4 &1265933192
 Transform:
@@ -1550,7 +1550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_projectilePool: {fileID: 1913187807}
-  m_enemyProjectilePool: {fileID: 603159818}
+  m_enemyProjectilePool: {fileID: 0}
 --- !u!1 &1557732510
 GameObject:
   m_ObjectHideFlags: 0
@@ -1676,10 +1676,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1656119227}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 455c8f9cf1ed4a06b0239b5e7af5eda4, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c238dfe9036477680645d57b09793df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_projectilePool: {fileID: 603159818}
+  m_enemyProjectilePool: {fileID: 1913187807}
 --- !u!4 &1661458839 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8649658002279532524, guid: 8342537e6c8e0314792377e59253a068, type: 3}
@@ -2161,7 +2161,7 @@ MonoBehaviour:
   m_minWaveObjects: 1
   m_maxWaveObjects: 3
   m_minMaxWaveDelay: {x: 1.5, y: 2.5}
-  m_projectileSpawner: {fileID: 1656119229}
+  m_enemyProjectileSpawner: {fileID: 811337144}
 --- !u!4 &1989627092
 Transform:
   m_ObjectHideFlags: 0

@@ -133,3 +133,56 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a1635c84a69f57e459e6d56a6612c92d, type: 3}
+--- !u!114 &1250412763144529986 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 242073381028269584, guid: a1635c84a69f57e459e6d56a6612c92d, type: 3}
+  m_PrefabInstance: {fileID: 1298830809576023634}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4867020697437918240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43087c160f7146029e239a8e36b7d654, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2693882659141691379 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3991534780304130465, guid: a1635c84a69f57e459e6d56a6612c92d, type: 3}
+  m_PrefabInstance: {fileID: 1298830809576023634}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4867020697437918240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5788242b17a349389ce755e61bca29f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3557692783271466392 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2547112151793890250, guid: a1635c84a69f57e459e6d56a6612c92d, type: 3}
+  m_PrefabInstance: {fileID: 1298830809576023634}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efe3754d0db145ab964c5d966d4ea3ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &4867020697437918240 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5876491854037283442, guid: a1635c84a69f57e459e6d56a6612c92d, type: 3}
+  m_PrefabInstance: {fileID: 1298830809576023634}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7639665419434681036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4867020697437918240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 036c59692257497687fa9c894c883a47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_kinematic2DMovementSystem: {fileID: 1250412763144529986}
+  m_collision2DRelay: {fileID: 2693882659141691379}
+  m_projectileViewSystem: {fileID: 3557692783271466392}

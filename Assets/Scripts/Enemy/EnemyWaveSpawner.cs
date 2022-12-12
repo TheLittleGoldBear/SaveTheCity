@@ -9,14 +9,14 @@ namespace Enemy
 	{
 		#region SerializeFields
 
-		[SerializeField] private ProjectileSpawner m_projectileSpawner;
+		[SerializeField] private EnemyProjectileSpawner m_enemyProjectileSpawner;
 
 		#endregion
 
 		#region PrivateFields
 
 		private EnemyGoalPositionSystem m_enemyGoalPositionSystem;
-		private List<ProjectileSystem> m_spawnedProjectileSystems;
+		private List<EnemyProjectileSystem> m_spawnedProjectileSystems;
 
 		#endregion
 
@@ -24,7 +24,7 @@ namespace Enemy
 
 		public EnemyWaveSpawner Inject(
 			EnemyGoalPositionSystem enemyGoalPositionSystem,
-			List<ProjectileSystem> spawnedProjectileSystems
+			List<EnemyProjectileSystem> spawnedProjectileSystems
 		)
 		{
 			m_enemyGoalPositionSystem = enemyGoalPositionSystem;
@@ -42,9 +42,9 @@ namespace Enemy
 			Vector3 goalPosition = m_enemyGoalPositionSystem.GetGoalLocation();
 			Vector3 forwardDirection = (goalPosition - position).normalized;
 
-			ProjectileSystem spawnedProjectileSystem = m_projectileSpawner.SpawnProjectileSystem(position, forwardDirection, goalPosition);
+			EnemyProjectileSystem spawnedAbstractProjectileSystem = m_enemyProjectileSpawner.SpawnProjectileSystem(position, forwardDirection, goalPosition);
 
-			m_spawnedProjectileSystems.Add(spawnedProjectileSystem);
+			m_spawnedProjectileSystems.Add(spawnedAbstractProjectileSystem);
 		}
 
 		#endregion

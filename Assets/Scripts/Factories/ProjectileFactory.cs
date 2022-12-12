@@ -1,5 +1,5 @@
 using Projectile;
-using Projectile.Events;
+using Projectile.Pool;
 using UnityEngine;
 
 namespace Factories
@@ -16,17 +16,16 @@ namespace Factories
 
 		public ProjectileSystem CreateProjectileSystem(
 			ProjectilePool projectilePool,
-			Transform root,
-			ProjectileEventBus projectileEventBus
+			Transform root
 		)
 		{
-			ProjectileSystem projectileSystem = Instantiate(m_projectileSystemPrefab, root);
+			ProjectileSystem abstractProjectileSystem = Instantiate(m_projectileSystemPrefab, root);
 
-			projectileSystem
-				.Inject(projectileEventBus, projectilePool)
+			abstractProjectileSystem
+				.Inject(projectilePool)
 				.Initialize();
 
-			return projectileSystem;
+			return abstractProjectileSystem;
 		}
 
 		#endregion

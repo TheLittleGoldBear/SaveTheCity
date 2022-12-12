@@ -3,13 +3,8 @@ using UnityEngine;
 
 namespace Pooling
 {
-	public class AbstractMonoBehaviourPoolable<T> :  MonoBehaviour, IPoolable where T : IPool<IPoolable>
+	public class AbstractMonoBehaviourPoolable<T> : MonoBehaviour, IPoolable where T : IPool<IPoolable>
 	{
-		public void Inject(T pool)
-		{
-			m_pool = pool;
-		}
-		
 		#region Events
 
 		public event Action<IPoolable> ReleasedToPool;
@@ -34,7 +29,7 @@ namespace Pooling
 		public virtual void OnGetFromPool()
 		{
 			IsInPool = false;
-			
+
 			CallOnGetFromPool();
 			gameObject.SetActive(true);
 		}
@@ -42,7 +37,7 @@ namespace Pooling
 		public virtual void OnInsertToPool()
 		{
 			IsInPool = true;
-			
+
 			CallOnInsertToPool();
 			gameObject.SetActive(false);
 		}
@@ -50,14 +45,13 @@ namespace Pooling
 		public virtual void OnReleaseToPool()
 		{
 			IsInPool = true;
-			
+
 			CallOnReleaseToPool();
-			
+
 			ReleasedToPool?.Invoke(this);
 			ReleasedToPool = null;
-			
+
 			gameObject.SetActive(false);
-			
 		}
 
 		public virtual void OnPoolShutdown()
@@ -71,6 +65,11 @@ namespace Pooling
 		#endregion
 
 		#region PublicMethods
+
+		public void Inject(T pool)
+		{
+			m_pool = pool;
+		}
 
 		#endregion
 

@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using Enemy;
 using Physics.Collisions.DetectionService;
 using Physics.Collisions.Relay.Collision2D;
 using Physics.Collisions.Relay.Trigger2D;
-using Projectile.Events;
 using UnityEngine;
 
 namespace Projectile
@@ -12,7 +12,8 @@ namespace Projectile
 	{
 		#region PrivateFields
 
-		private ProjectileDetectionService m_projectileDetectionService;
+		private ProjectileSystem m_projectileSystem;
+		private EnemyProjectileDetectionService m_enemyProjectileDetectionService;
 		private Collision2DRelay m_collision2DRelay;
 		private bool m_registeredToEvents;
 
@@ -20,11 +21,12 @@ namespace Projectile
 
 		#region Constructors
 
-		public ProjectileExplosionSystem(Collision2DRelay collision2DRelay, Trigger2DRelay detectionTrigger2DRelay)
+		public ProjectileExplosionSystem(ProjectileSystem projectileSystem, Collision2DRelay collision2DRelay, Trigger2DRelay detectionTrigger2DRelay)
 		{
+			m_projectileSystem = projectileSystem;
 			m_collision2DRelay = collision2DRelay;
 
-			m_projectileDetectionService = new ProjectileDetectionService(detectionTrigger2DRelay);
+			m_enemyProjectileDetectionService = new EnemyProjectileDetectionService(detectionTrigger2DRelay);
 
 			RegisterToEvents();
 		}
@@ -35,23 +37,24 @@ namespace Projectile
 
 		public void OnTearDown()
 		{
-			m_projectileDetectionService.OnTearDown();
+			m_enemyProjectileDetectionService.OnTearDown();
 
 			UnregisterFromEvents();
 		}
 
 		public void ActiveExplosion()
 		{
-			List<ProjectileSystem> detectedProjectileSystemsList =
-				m_projectileDetectionService
+			List<EnemyProjectileSystem> detectedProjectileSystemsList =
+				m_enemyProjectileDetectionService
 					.DetectedObjects
 					.ToList();
 
 			for (int i = 0; i < detectedProjectileSystemsList.Count; i++)
 			{
 				detectedProjectileSystemsList[i].Shooted();
-				detectedProjectileSystemsList[i].HitExplosion();
 			}
+
+			m_projectileSystem.HitExplosion();
 		}
 
 		#endregion

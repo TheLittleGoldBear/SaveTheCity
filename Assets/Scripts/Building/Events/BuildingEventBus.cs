@@ -1,5 +1,4 @@
 using EventBus;
-using Projectile.Events;
 
 namespace Building.Events
 {

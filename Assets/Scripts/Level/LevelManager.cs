@@ -1,6 +1,6 @@
 using Building;
 using Enemy;
-using Projectile.Events;
+using Enemy.Events;
 using Turret;
 using UI;
 using UnityEngine;
@@ -19,13 +19,18 @@ namespace Level
 
 		#endregion
 
+		#region PrivateFields
+
+		private PointSystem m_pointSystem;
+
+		#endregion
+
 		#region UnityMethods
 
 		private void Awake()
 		{
 			var enemyGoalPositionSystem = new EnemyGoalPositionSystem(m_buildingManager, m_turretManager);
-			var projectileEventBus = new ProjectileEventBus();
-			var enemyProjectileEventBus = new ProjectileEventBus();
+			var enemyProjectileEventBus = new EnemyProjectileEventBus();
 
 			m_pointSystem = new PointSystem(
 				m_buildingManager,
@@ -34,7 +39,7 @@ namespace Level
 			);
 
 			m_poolManager
-				.Inject(projectileEventBus, enemyProjectileEventBus)
+				.Inject(enemyProjectileEventBus)
 				.Initialize();
 
 			m_enemyManager
@@ -50,7 +55,9 @@ namespace Level
 			m_buildingManager.Initialize();
 		}
 
-		private PointSystem m_pointSystem;
+		#endregion
+
+		#region PublicMethods
 
 		public void FinishedLevel()
 		{

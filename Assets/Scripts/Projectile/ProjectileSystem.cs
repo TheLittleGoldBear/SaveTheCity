@@ -1,93 +1,40 @@
-using Physics;
-using Physics.Collisions.Relay.Collision2D;
 using Physics.Collisions.Relay.Trigger2D;
-using Pooling;
-using Projectile.Events;
-using Projectile.View;
+using Projectile.Pool;
 using UnityEngine;
 
 namespace Projectile
 {
-	public class ProjectileSystem : AbstractMonoBehaviourPoolable<ProjectilePool>
+	public class ProjectileSystem : AbstractProjectileSystem
 	{
 		#region SerializeFields
 
-		[SerializeField] private ProjectileKinematic2DMovementSystem m_kinematic2DMovementSystem;
-		[SerializeField] private Collision2DRelay m_collision2DRelay;
 		[SerializeField] private Trigger2DRelay m_detectionTrigger2DRelay;
-		[SerializeField] private ProjectileViewSystem m_projectileViewSystem;
 
 		#endregion
 
 		#region PrivateFields
 
 		private ProjectileExplosionSystem m_projectileExplosionSystem;
-		private ProjectileEventBus m_projectileEventBus;
 
 		#endregion
 
 		#region PublicMethods
 
-		public void Setup(Vector3 goalPosition)
-		{
-			m_kinematic2DMovementSystem.Setup(goalPosition);
-			m_kinematic2DMovementSystem.IsEnabled = true;
-		}
-
-		public void HitExplosion()
-		{
-			m_projectileEventBus.Publish(new ProjectileExplosionEvent(this));
-			ReleaseToPool();
-		}
-
-		//Wrzucić do nowej klasy
-		public void Shooted()
-		{
-			m_projectileEventBus.Publish(new ShootedProjectileEvent(this));
-		}
-
-		#endregion
-
-		// private void OnProjectileReachedGoalPosition(ProjectileExplosionEvent projectileExplosionEvent)
-		// {
-		// 	Explode();
-		// 	
-		// }
-
-		#region UnityMethods
-
 		public void Initialize()
 		{
-			// m_projectileEventBus = new ProjectileEventBus();
-
-			m_projectileExplosionSystem = new ProjectileExplosionSystem(m_collision2DRelay, m_detectionTrigger2DRelay);
-
-			m_kinematic2DMovementSystem.Inject(this);
-
-			// m_projectileEventBus.Subscribe<ProjectileExplosionEvent>(OnProjectileReachedGoalPosition);
+			m_projectileExplosionSystem = new ProjectileExplosionSystem(this, m_collision2DRelay, m_detectionTrigger2DRelay);
+		}
+		
+		public void OnTearDown()
+		{
+			m_projectileExplosionSystem.OnTearDown();
 		}
 
-		public ProjectileSystem Inject(ProjectileEventBus projectileEventBus, ProjectilePool projectilePool)
+		public ProjectileSystem Inject(ProjectilePool projectilePool)
 		{
 			base.Inject(projectilePool);
 
-			m_projectileEventBus = projectileEventBus;
-
 			return this;
-		}
-
-		private void OnDestroy()
-		{
-			m_projectileExplosionSystem.OnTearDown();
-
-			// m_projectileEventBus.Unsubscribe<ProjectileExplosionEvent>(OnProjectileReachedGoalPosition);
-		}
-
-		protected override void CallOnReleaseToPool()
-		{
-			base.CallOnReleaseToPool();
-			
-			m_projectileViewSystem.ClearView();
 		}
 
 		#endregion

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
+using Enemy.Events;
 using Level;
-using Projectile;
-using Projectile.Events;
 using UnityEngine;
 
 namespace Enemy
@@ -16,9 +15,10 @@ namespace Enemy
 
 		#region PrivateFields
 
-		private List<ProjectileSystem> m_enemyProjectileSystems = new();
-		private ProjectileEventBus m_projectileEventBus;
+		private List<EnemyProjectileSystem> m_enemyProjectileSystems = new();
+		private EnemyProjectileEventBus m_enemyProjectileEventBus;
 		private PointSystem m_pointSystem;
+
 		//Zmienić na event
 		private LevelManager m_levelManager;
 
@@ -30,12 +30,12 @@ namespace Enemy
 
 		public EnemyManager Inject(
 			EnemyGoalPositionSystem enemyGoalPositionSystem,
-			ProjectileEventBus projectileEventBus,
+			EnemyProjectileEventBus enemyProjectileEventBus,
 			PointSystem pointSystem,
 			LevelManager levelManager
 		)
 		{
-			m_projectileEventBus = projectileEventBus;
+			m_enemyProjectileEventBus = enemyProjectileEventBus;
 			m_pointSystem = pointSystem;
 			m_levelManager = levelManager;
 
@@ -59,26 +59,25 @@ namespace Enemy
 		#endregion
 
 		#region PrivateMethods
-		
-		private void OnProjectileExplosion(ProjectileExplosionEvent projectileExplosionEvent)
+
+		private void OnProjectileExplosion(EnemyProjectileExplosionEvent enemyProjectileExplosionEvent)
 		{
-			RemoveEnemyProjectileSystem(projectileExplosionEvent.ProjectileSystem);
+			RemoveEnemyProjectileSystem(enemyProjectileExplosionEvent.EnemyProjectileSystem);
 		}
 
-		private void RemoveEnemyProjectileSystem(ProjectileSystem enemyProjectileSystem)
+		private void RemoveEnemyProjectileSystem(EnemyProjectileSystem enemyAbstractProjectileSystem)
 		{
-			m_enemyProjectileSystems.Remove(enemyProjectileSystem);
-			
+			m_enemyProjectileSystems.Remove(enemyAbstractProjectileSystem);
+
 			if (m_enemyProjectileSystems.Count == 0)
 			{
 				m_levelManager.FinishedLevel();
 			}
 		}
 
-		private void OnShootedProjectileEvent(ShootedProjectileEvent shootedProjectileEvent)
-		
+		private void OnShootedProjectileEvent(ShootedEnemyProjectileEvent shootedEnemyProjectileEvent)
 		{
-			if (shootedProjectileEvent.ProjectileSystem == null)
+			if (shootedEnemyProjectileEvent.EnemyProjectileSystem == null)
 			{
 				Debug.Log("XD");
 
@@ -87,7 +86,7 @@ namespace Enemy
 
 			m_pointSystem.ShootedProjectile();
 
-			RemoveEnemyProjectileSystem(shootedProjectileEvent.ProjectileSystem);
+			RemoveEnemyProjectileSystem(shootedEnemyProjectileEvent.EnemyProjectileSystem);
 		}
 
 		private void RegisterToEvents()
@@ -97,13 +96,11 @@ namespace Enemy
 				return;
 			}
 
-			m_projectileEventBus.Subscribe<ProjectileExplosionEvent>(OnProjectileExplosion);
-			m_projectileEventBus.Subscribe<ShootedProjectileEvent>(OnShootedProjectileEvent);
+			m_enemyProjectileEventBus.Subscribe<EnemyProjectileExplosionEvent>(OnProjectileExplosion);
+			m_enemyProjectileEventBus.Subscribe<ShootedEnemyProjectileEvent>(OnShootedProjectileEvent);
 
 			m_registeredToEvents = true;
 		}
-
-	
 
 		private void UnregisterFromEvents()
 		{
@@ -112,8 +109,8 @@ namespace Enemy
 				return;
 			}
 
-			m_projectileEventBus.Unsubscribe<ProjectileExplosionEvent>(OnProjectileExplosion);
-			m_projectileEventBus.Unsubscribe<ShootedProjectileEvent>(OnShootedProjectileEvent);
+			m_enemyProjectileEventBus.Unsubscribe<EnemyProjectileExplosionEvent>(OnProjectileExplosion);
+			m_enemyProjectileEventBus.Unsubscribe<ShootedEnemyProjectileEvent>(OnShootedProjectileEvent);
 
 			m_registeredToEvents = false;
 		}

@@ -1,5 +1,4 @@
 using Projectile;
-using Projectile.Events;
 
 namespace Physics
 {
@@ -7,15 +6,15 @@ namespace Physics
 	{
 		#region PrivateFields
 
-		private ProjectileSystem m_projectileSystem;
+		private AbstractProjectileSystem m_abstractProjectileSystem;
 
 		#endregion
 
 		#region PublicMethods
 
-		public void Inject(ProjectileSystem projectileSystem)
+		public void Inject(AbstractProjectileSystem abstractProjectileSystem)
 		{
-			m_projectileSystem = projectileSystem;
+			m_abstractProjectileSystem = abstractProjectileSystem;
 		}
 
 		#endregion
@@ -26,7 +25,7 @@ namespace Physics
 		{
 			base.OnGoalReached();
 
-			m_projectileSystem.HitExplosion();
+			m_abstractProjectileSystem.HitExplosion();
 		}
 
 		#endregion

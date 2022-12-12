@@ -1,26 +1,26 @@
-using Projectile;
-using Projectile.Pool;
+using Enemy;
+using Enemy.Pool;
 using UnityEngine;
 
 namespace Spawners
 {
-	public class ProjectileSpawner : AbstractProjectileSpawner
+	public class EnemyProjectileSpawner : AbstractProjectileSpawner
 	{
 		#region SerializeFields
 
-		[SerializeField] private ProjectilePool m_enemyProjectilePool;
+		[SerializeField] private EnemyProjectilePool m_enemyProjectilePool;
 
 		#endregion
 
 		#region PublicMethods
 
-		public ProjectileSystem SpawnProjectileSystem(
+		public EnemyProjectileSystem SpawnProjectileSystem(
 			Vector3 position,
 			Vector3 upDirection,
 			Vector3 goalPosition
 		)
 		{
-			var projectileSystem = (ProjectileSystem)m_enemyProjectilePool.Get();
+			var projectileSystem = (EnemyProjectileSystem)m_enemyProjectilePool.Get();
 
 			Setup(
 				projectileSystem,
