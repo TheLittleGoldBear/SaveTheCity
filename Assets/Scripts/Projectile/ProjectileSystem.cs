@@ -3,6 +3,7 @@ using Physics.Collisions.Relay.Collision2D;
 using Physics.Collisions.Relay.Trigger2D;
 using Pooling;
 using Projectile.Events;
+using Projectile.View;
 using UnityEngine;
 
 namespace Projectile
@@ -14,6 +15,7 @@ namespace Projectile
 		[SerializeField] private ProjectileKinematic2DMovementSystem m_kinematic2DMovementSystem;
 		[SerializeField] private Collision2DRelay m_collision2DRelay;
 		[SerializeField] private Trigger2DRelay m_detectionTrigger2DRelay;
+		[SerializeField] private ProjectileViewSystem m_projectileViewSystem;
 
 		#endregion
 
@@ -37,7 +39,12 @@ namespace Projectile
 			m_projectileEventBus.Publish(new ProjectileExplosionEvent(this));
 			ReleaseToPool();
 		}
-		
+
+		//Wrzucić do nowej klasy
+		public void Shooted()
+		{
+			m_projectileEventBus.Publish(new ShootedProjectileEvent(this));
+		}
 
 		#endregion
 
@@ -74,6 +81,13 @@ namespace Projectile
 			m_projectileExplosionSystem.OnTearDown();
 
 			// m_projectileEventBus.Unsubscribe<ProjectileExplosionEvent>(OnProjectileReachedGoalPosition);
+		}
+
+		protected override void CallOnReleaseToPool()
+		{
+			base.CallOnReleaseToPool();
+			
+			m_projectileViewSystem.ClearView();
 		}
 
 		#endregion

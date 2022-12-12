@@ -24,7 +24,9 @@ namespace Turret
 		{
 			for (int i = 0; i < m_turretSystems.Count; i++)
 			{
-				m_turretSystems[i].Inject(m_projectilePool, m_projectileCount);
+				m_turretSystems[i]
+					.Inject(m_projectilePool, m_projectileCount)
+					.Initialize();
 			}
 		}
 

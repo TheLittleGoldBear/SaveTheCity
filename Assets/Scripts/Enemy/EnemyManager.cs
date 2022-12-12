@@ -59,8 +59,24 @@ namespace Enemy
 		#endregion
 
 		#region PrivateMethods
+		
+		private void OnProjectileExplosion(ProjectileExplosionEvent projectileExplosionEvent)
+		{
+			RemoveEnemyProjectileSystem(projectileExplosionEvent.ProjectileSystem);
+		}
+
+		private void RemoveEnemyProjectileSystem(ProjectileSystem enemyProjectileSystem)
+		{
+			m_enemyProjectileSystems.Remove(enemyProjectileSystem);
+			
+			if (m_enemyProjectileSystems.Count == 0)
+			{
+				m_levelManager.FinishedLevel();
+			}
+		}
 
 		private void OnShootedProjectileEvent(ShootedProjectileEvent shootedProjectileEvent)
+		
 		{
 			if (shootedProjectileEvent.ProjectileSystem == null)
 			{
@@ -69,13 +85,9 @@ namespace Enemy
 				return;
 			}
 
-			m_enemyProjectileSystems.Remove(shootedProjectileEvent.ProjectileSystem);
 			m_pointSystem.ShootedProjectile();
 
-			if (m_enemyProjectileSystems.Count == 0)
-			{
-				m_levelManager.FinishedLevel();
-			}
+			RemoveEnemyProjectileSystem(shootedProjectileEvent.ProjectileSystem);
 		}
 
 		private void RegisterToEvents()
@@ -85,10 +97,13 @@ namespace Enemy
 				return;
 			}
 
+			m_projectileEventBus.Subscribe<ProjectileExplosionEvent>(OnProjectileExplosion);
 			m_projectileEventBus.Subscribe<ShootedProjectileEvent>(OnShootedProjectileEvent);
 
 			m_registeredToEvents = true;
 		}
+
+	
 
 		private void UnregisterFromEvents()
 		{
@@ -97,6 +112,7 @@ namespace Enemy
 				return;
 			}
 
+			m_projectileEventBus.Unsubscribe<ProjectileExplosionEvent>(OnProjectileExplosion);
 			m_projectileEventBus.Unsubscribe<ShootedProjectileEvent>(OnShootedProjectileEvent);
 
 			m_registeredToEvents = false;

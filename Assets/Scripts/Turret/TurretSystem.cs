@@ -1,5 +1,6 @@
 using Spawners;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Turret
 {
@@ -14,6 +15,7 @@ namespace Turret
 		#region SerializeFields
 
 		[SerializeField] private Transform m_spawnPosition;
+		[SerializeField] private Text m_projectileCountText;
 
 		#endregion
 
@@ -25,10 +27,17 @@ namespace Turret
 
 		#region PublicMethods
 
-		public void Inject(ProjectileSpawner projectileSpawner, int projectileCount)
+		public TurretSystem Inject(ProjectileSpawner projectileSpawner, int projectileCount)
 		{
 			m_projectileSpawner = projectileSpawner;
 			ProjectileCount = projectileCount;
+
+			return this;
+		}
+
+		public void Initialize()
+		{
+			UpdateProjectileCountText();
 		}
 
 		public void SpawnProjectile(Vector3 goalPosition)
@@ -43,6 +52,16 @@ namespace Turret
 			);
 
 			ProjectileCount--;
+			UpdateProjectileCountText();
+		}
+
+		#endregion
+
+		#region PrivateMethods
+
+		private void UpdateProjectileCountText()
+		{
+			m_projectileCountText.text = ProjectileCount.ToString();
 		}
 
 		#endregion

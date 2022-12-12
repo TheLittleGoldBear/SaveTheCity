@@ -7,10 +7,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 242073381028269584, guid: a1635c84a69f57e459e6d56a6612c92d, type: 3}
-      propertyPath: m_speed
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 393160162418588113, guid: a1635c84a69f57e459e6d56a6612c92d, type: 3}
       propertyPath: m_TagString
       value: EnemyProjectile
@@ -102,6 +98,34 @@ PrefabInstance:
     - target: {fileID: 6471556485951469216, guid: a1635c84a69f57e459e6d56a6612c92d, type: 3}
       propertyPath: m_acceptedTags.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7171908605303025845, guid: a1635c84a69f57e459e6d56a6612c92d, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.b
+      value: 0.04801533
+      objectReference: {fileID: 0}
+    - target: {fileID: 7171908605303025845, guid: a1635c84a69f57e459e6d56a6612c92d, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.g
+      value: 0.04801533
+      objectReference: {fileID: 0}
+    - target: {fileID: 7171908605303025845, guid: a1635c84a69f57e459e6d56a6612c92d, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.r
+      value: 0.7830189
+      objectReference: {fileID: 0}
+    - target: {fileID: 7171908605303025845, guid: a1635c84a69f57e459e6d56a6612c92d, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.a
+      value: 0.50980395
+      objectReference: {fileID: 0}
+    - target: {fileID: 7171908605303025845, guid: a1635c84a69f57e459e6d56a6612c92d, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.b
+      value: 0.050980393
+      objectReference: {fileID: 0}
+    - target: {fileID: 7171908605303025845, guid: a1635c84a69f57e459e6d56a6612c92d, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.g
+      value: 0.050980393
+      objectReference: {fileID: 0}
+    - target: {fileID: 7171908605303025845, guid: a1635c84a69f57e459e6d56a6612c92d, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.r
+      value: 0.78431374
       objectReference: {fileID: 0}
     - target: {fileID: 9054406292422471914, guid: a1635c84a69f57e459e6d56a6612c92d, type: 3}
       propertyPath: m_Radius

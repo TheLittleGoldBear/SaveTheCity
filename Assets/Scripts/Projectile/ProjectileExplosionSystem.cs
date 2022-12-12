@@ -49,7 +49,8 @@ namespace Projectile
 
 			for (int i = 0; i < detectedProjectileSystemsList.Count; i++)
 			{
-				// detectedProjectileSystemsList[i].HitExplosion();
+				detectedProjectileSystemsList[i].Shooted();
+				detectedProjectileSystemsList[i].HitExplosion();
 			}
 		}
 
