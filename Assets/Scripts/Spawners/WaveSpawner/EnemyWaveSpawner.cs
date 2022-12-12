@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Spawners;
+using Enemy;
 using UnityEngine;
 
-namespace Enemy
+namespace Spawners.WaveSpawner
 {
 	public class EnemyWaveSpawner : WaveSpawner
 	{
@@ -46,7 +46,8 @@ namespace Enemy
 			Vector3 goalPosition = m_enemyGoalPositionSystem.GetGoalLocation();
 			Vector3 forwardDirection = (goalPosition - position).normalized;
 
-			EnemyProjectileSystem spawnedAbstractProjectileSystem = m_enemyProjectileSpawner.SpawnProjectileSystem(position, forwardDirection, goalPosition);
+			EnemyProjectileSystem spawnedAbstractProjectileSystem = m_enemyProjectileSpawner
+				.SpawnProjectileSystem(position, forwardDirection, goalPosition);
 
 			m_spawnedProjectileSystems.Add(spawnedAbstractProjectileSystem);
 		}

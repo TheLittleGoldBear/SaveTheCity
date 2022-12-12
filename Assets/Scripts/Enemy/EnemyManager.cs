@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using Enemy.Events;
 using Level;
+using Level.Events;
+using Spawners.WaveSpawner;
 using UnityEngine;
 
 namespace Enemy
@@ -16,9 +18,9 @@ namespace Enemy
 		#region PrivateFields
 
 		private List<EnemyProjectileSystem> m_enemyProjectileSystems = new();
+		private LevelEventBus m_levelEventBus;
 		private EnemyProjectileEventBus m_enemyProjectileEventBus;
 		private PointsSystem m_pointsSystem;
-		private LevelManager m_levelManager;
 
 		private bool m_registeredToEvents;
 
@@ -27,15 +29,15 @@ namespace Enemy
 		#region PublicMethods
 
 		public EnemyManager Inject(
+			LevelEventBus levelEventBus,
 			EnemyGoalPositionSystem enemyGoalPositionSystem,
 			EnemyProjectileEventBus enemyProjectileEventBus,
-			PointsSystem pointsSystem,
-			LevelManager levelManager
+			PointsSystem pointsSystem
 		)
 		{
+			m_levelEventBus = levelEventBus;
 			m_enemyProjectileEventBus = enemyProjectileEventBus;
 			m_pointsSystem = pointsSystem;
-			m_levelManager = levelManager;
 
 			m_enemyWaveSpawner.Inject(enemyGoalPositionSystem, m_enemyProjectileSystems);
 
@@ -71,7 +73,7 @@ namespace Enemy
 
 			if (m_enemyProjectileSystems.Count == 0)
 			{
-				m_levelManager.FinishedLevel();
+				m_levelEventBus.Publish(new EndLevelEvent());
 			}
 		}
 

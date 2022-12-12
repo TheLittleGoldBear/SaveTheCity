@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Spawners;
 using Turret.Events;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Turret
 {
@@ -17,7 +16,6 @@ namespace Turret
 		#region SerializeFields
 
 		[SerializeField] private List<TurretSystem> m_turretSystems;
-		[SerializeField] private Camera m_camera;
 		[SerializeField] private ProjectileSpawner m_projectilePool;
 		[SerializeField] private int m_projectileCount;
 
@@ -30,34 +28,24 @@ namespace Turret
 
 		#endregion
 
-		#region UnityMethods
+		#region PublicMethods
 
-		private void Update()
+		public void ShootProjectile(Vector3 position)
 		{
-			if (Mouse.current.leftButton.wasPressedThisFrame)
+			if (m_turretSystems.Count == 0)
 			{
-				if (m_turretSystems.Count == 0)
-				{
-					return;
-				}
+				return;
+			}
 
-				Vector3 position = m_camera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-				position.z = 0.0f;
+			TurretSystem turretSystem = GetClosetsTurret(position);
 
-				TurretSystem turretSystem = GetClosetsTurret(position);
+			turretSystem.SpawnProjectile(position);
 
-				turretSystem.SpawnProjectile(position);
-
-				if (turretSystem.ProjectileCount <= 0)
-				{
-					m_turretSystems.Remove(turretSystem);
-				}
+			if (turretSystem.ProjectileCount <= 0)
+			{
+				m_turretSystems.Remove(turretSystem);
 			}
 		}
-
-		#endregion
-
-		#region PublicMethods
 
 		public void Initialize()
 		{

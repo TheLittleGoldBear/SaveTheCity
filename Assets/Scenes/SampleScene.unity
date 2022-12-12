@@ -1556,7 +1556,6 @@ MonoBehaviour:
   - {fileID: 2060808984}
   - {fileID: 1935715140}
   - {fileID: 750902806}
-  m_camera: {fileID: 519420031}
   m_projectilePool: {fileID: 1656119229}
   m_projectileCount: 3
 --- !u!4 &1265933192
@@ -2084,6 +2083,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1757244707}
   - component: {fileID: 1757244706}
+  - component: {fileID: 1757244708}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -2108,6 +2108,7 @@ MonoBehaviour:
   m_enemyManager: {fileID: 843889893}
   m_buildingManager: {fileID: 1137731222}
   m_uiSystem: {fileID: 1483099335}
+  m_inputSystem: {fileID: 1757244708}
 --- !u!4 &1757244707
 Transform:
   m_ObjectHideFlags: 0
@@ -2126,6 +2127,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1757244708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757244705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dd6e87c96aa4a469880549ef5d62893, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_camera: {fileID: 519420031}
+  m_turretManager: {fileID: 1265933191}
 --- !u!1001 &1771450741
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2630,14 +2645,6 @@ PrefabInstance:
     - target: {fileID: 3143890894406277382, guid: 8342537e6c8e0314792377e59253a068, type: 3}
       propertyPath: m_Name
       value: Buidling
-      objectReference: {fileID: 0}
-    - target: {fileID: 3403700455912820879, guid: 8342537e6c8e0314792377e59253a068, type: 3}
-      propertyPath: m_BodyType
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3403700455912820879, guid: 8342537e6c8e0314792377e59253a068, type: 3}
-      propertyPath: m_UseFullKinematicContacts
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8649658002279532524, guid: 8342537e6c8e0314792377e59253a068, type: 3}
       propertyPath: m_RootOrder

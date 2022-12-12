@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Utils;
 
-namespace Enemy
+namespace Spawners.WaveSpawner
 {
 	public abstract class WaveSpawner : MonoBehaviour
 	{

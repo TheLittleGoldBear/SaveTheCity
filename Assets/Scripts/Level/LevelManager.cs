@@ -1,9 +1,12 @@
 using Building;
 using Enemy;
 using Enemy.Events;
+using Level.Events;
 using Turret;
 using UI;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using InputSystem = Input.InputSystem;
 
 namespace Level
 {
@@ -16,12 +19,46 @@ namespace Level
 		[SerializeField] private EnemyManager m_enemyManager;
 		[SerializeField] private BuildingManager m_buildingManager;
 		[SerializeField] private UISystem m_uiSystem;
+		[SerializeField] private InputSystem m_inputSystem;
 
 		#endregion
 
 		#region PrivateFields
 
 		private PointsSystem m_pointsSystem;
+		private LevelEventBus m_levelEventBus;
+		private bool m_registeredToEvents;
+		
+		private void RegisterToEvents()
+		{
+			if (m_registeredToEvents)
+			{
+				return;
+			}
+
+			m_levelEventBus.Subscribe<EndLevelEvent>(OnEndLevelEvent);
+
+			m_registeredToEvents = true;
+		}
+
+		private void UnregisterFromEvents()
+		{
+			if (!m_registeredToEvents)
+			{
+				return;
+			}
+
+			m_levelEventBus.Unsubscribe<EndLevelEvent>(OnEndLevelEvent);
+
+			m_registeredToEvents = false;
+		}
+
+		private void OnEndLevelEvent(EndLevelEvent endLevelEvent)
+		{
+			//Inputy
+			
+			FinishedLevel();
+		}
 
 		#endregion
 
@@ -29,6 +66,8 @@ namespace Level
 
 		private void Awake()
 		{
+			m_levelEventBus = new LevelEventBus();
+			
 			var enemyGoalPositionSystem = new EnemyGoalPositionSystem(m_buildingManager, m_turretManager);
 			var enemyProjectileEventBus = new EnemyProjectileEventBus();
 
@@ -44,15 +83,19 @@ namespace Level
 
 			m_enemyManager
 				.Inject(
+					m_levelEventBus,
 					enemyGoalPositionSystem,
 					enemyProjectileEventBus,
-					m_pointsSystem,
-					this
+					m_pointsSystem
 				)
 				.Initialize();
 
 			m_turretManager.Initialize();
 			m_buildingManager.Initialize();
+
+			m_inputSystem.IsEnabled = true;
+			
+			RegisterToEvents();
 		}
 
 		private void OnDestroy()
@@ -61,6 +104,8 @@ namespace Level
 			m_turretManager.OnTearDown();
 			m_enemyManager.OnTearDown();
 			m_poolManager.OnTearDown();
+			
+			UnregisterFromEvents();
 		}
 
 		#endregion
@@ -69,6 +114,8 @@ namespace Level
 
 		public void FinishedLevel()
 		{
+			m_inputSystem.IsEnabled = false;
+			
 			m_pointsSystem.SummarizePoints();
 			m_uiSystem.DisplayGameOverView();
 		}

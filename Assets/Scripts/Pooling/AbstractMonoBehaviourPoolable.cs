@@ -55,7 +55,9 @@ namespace Pooling
 		}
 
 		public virtual void OnPoolShutdown()
-		{ }
+		{
+			CallOnPoolShutdown();
+		}
 
 		public virtual void ReleaseToPool()
 		{
