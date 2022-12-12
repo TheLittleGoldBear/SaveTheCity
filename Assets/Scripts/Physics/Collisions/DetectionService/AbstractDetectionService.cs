@@ -70,8 +70,6 @@ namespace Physics.Collisions.DetectionService
 
 		private void OnTrigger2DEntered(Collider2D collider2D)
 		{
-			;
-
 			if (collider2D.attachedRigidbody.TryGetComponent(out T projectileSystem))
 			{
 				DetectedObjects.Add(projectileSystem);

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Physics
+namespace Physics.Movement
 {
 	public abstract class AbstractRigidbody2DMovementSystem : AbstractMovementSystem
 	{
@@ -27,9 +27,9 @@ namespace Physics
 
 			Vector3 position = m_rigidbody.transform.position;
 			float xDistance = position.x - m_goalPosition.x;
-			float zDistance = position.z - m_goalPosition.z;
+			float yDistance = position.y - m_goalPosition.y;
 
-			if (xDistance * xDistance + zDistance * zDistance <= SQUARE_DISTANCE_THRESHOLD)
+			if (xDistance * xDistance + yDistance * yDistance <= SQUARE_DISTANCE_THRESHOLD)
 			{
 				OnGoalReached();
 			}

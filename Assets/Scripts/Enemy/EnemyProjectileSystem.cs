@@ -17,7 +17,7 @@ namespace Enemy
 		public void Shooted()
 		{
 			m_enemyProjectileEventBus.Publish(new ShootedEnemyProjectileEvent(this));
-			
+
 			ReleaseToPool();
 		}
 
@@ -30,10 +30,10 @@ namespace Enemy
 			return this;
 		}
 
-		public override void HitExplosion()
+		public override void OnExplosion()
 		{
 			m_enemyProjectileEventBus.Publish(new EnemyProjectileExplosionEvent(this));
-			
+
 			ReleaseToPool();
 		}
 

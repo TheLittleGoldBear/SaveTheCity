@@ -1,5 +1,67 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4474917793416971141
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6739770515744719687}
+  - component: {fileID: 3186696101805385873}
+  - component: {fileID: 2117216859706684116}
+  m_Layer: 0
+  m_Name: DetectionCollider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6739770515744719687
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4474917793416971141}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6381405145931862215}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &3186696101805385873
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4474917793416971141}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1
+--- !u!114 &2117216859706684116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4474917793416971141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3573fc1376a941f9b34c35139d9a5d18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_acceptedTags: 01000000
 --- !u!1001 &4378798016519161115
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -182,17 +244,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43087c160f7146029e239a8e36b7d654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7280926204327916475 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6471556485951469216, guid: a1635c84a69f57e459e6d56a6612c92d, type: 3}
+--- !u!4 &6381405145931862215 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7227102793181500892, guid: a1635c84a69f57e459e6d56a6612c92d, type: 3}
   m_PrefabInstance: {fileID: 4378798016519161115}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3573fc1376a941f9b34c35139d9a5d18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7875075752659597161 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5876491854037283442, guid: a1635c84a69f57e459e6d56a6612c92d, type: 3}
@@ -213,4 +269,4 @@ MonoBehaviour:
   m_kinematic2DMovementSystem: {fileID: 4582581866184035083}
   m_collision2DRelay: {fileID: 837768643728786618}
   m_projectileViewSystem: {fileID: 2278175557337102033}
-  m_detectionTrigger2DRelay: {fileID: 7280926204327916475}
+  m_detectionTrigger2DRelay: {fileID: 2117216859706684116}

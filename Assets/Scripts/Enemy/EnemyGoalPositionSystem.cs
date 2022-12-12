@@ -25,9 +25,28 @@ namespace Enemy
 
 		#region PublicMethods
 
+		public bool NoValidLocationAvailable()
+		{
+			return m_buildingManager.BuildingsCount == 0 && m_turretManager.TurretsCount == 0;
+		}
+
 		public Vector3 GetGoalLocation()
 		{
-			return m_buildingManager.GetRandomBuildingLocation();
+			if (m_buildingManager.BuildingsCount == 0)
+			{
+				return m_turretManager.GetRandomTurretLocation();
+			}
+
+			if (m_turretManager.TurretsCount == 0)
+			{
+				return m_buildingManager.GetRandomBuildingLocation();
+			}
+
+			int number = Random.Range(0, 2);
+
+			return number == 0
+				? m_buildingManager.GetRandomBuildingLocation()
+				: m_turretManager.GetRandomTurretLocation();
 		}
 
 		#endregion

@@ -1,5 +1,4 @@
 using Building.Events;
-using Physics.Collisions.Relay;
 using Physics.Collisions.Relay.Collision2D;
 using UnityEngine;
 
@@ -17,10 +16,6 @@ namespace Building
 
 		private BuildingEventBus m_buildingEventBus;
 		private bool m_registeredToEvents;
-
-		#endregion
-
-		#region UnityMethods
 
 		#endregion
 
@@ -71,11 +66,10 @@ namespace Building
 			m_registeredToEvents = false;
 		}
 
-		private void OnDestroyBuilding(Collision2D obj)
+		private void OnDestroyBuilding(Collision2D collision2D)
 		{
 			m_buildingEventBus.Publish(
-				new
-					BuildingDestroyedEvent(this)
+				new BuildingDestroyedEvent(this)
 			);
 		}
 

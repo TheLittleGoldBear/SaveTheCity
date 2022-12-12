@@ -48,10 +48,9 @@ namespace Enemy
 			m_timer = new Timer();
 
 			RegisterToEvents();
+			SpawnNextWave();
 
 			m_initialized = true;
-
-			SpawnNextWave();
 		}
 
 		public void OnTearDown()

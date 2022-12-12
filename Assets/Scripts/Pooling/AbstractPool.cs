@@ -60,7 +60,7 @@ namespace Pooling
 				{
 					if (m_activeObjects.Count == 0)
 					{
-						Debug.LogError("There ain't any active objects");
+						Debug.LogError("There ain't any active objects and the pool is not expendable");
 
 						return null;
 					}
@@ -127,6 +127,26 @@ namespace Pooling
 			}
 		}
 
+		public void Shutdown()
+		{
+			for (int i = 0; i < m_activeObjects.Count; i++)
+			{
+				m_activeObjects[i].OnPoolShutdown();
+			}
+
+			if (m_inactiveObjects.Count == 0)
+			{
+				return;
+			}
+
+			T[] inActiveObjectsArray = m_inactiveObjects.ToArray();
+
+			for (int i = 0; i < inActiveObjectsArray.Length; i++)
+			{
+				inActiveObjectsArray[i].OnPoolShutdown();
+			}
+		}
+
 		#endregion
 
 		#region ProtectedMethods
@@ -134,16 +154,5 @@ namespace Pooling
 		protected abstract T CreateObjectPool();
 
 		#endregion
-
-		//
-		// public void Remove(IPoolable objectToRemove)
-		// {
-		// 	throw new NotImplementedException();
-		// }
-
-		// public void Shutdown()
-		// {
-		// 	throw new NotImplementedException();
-		// }
 	}
 }

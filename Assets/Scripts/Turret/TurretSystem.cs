@@ -1,4 +1,6 @@
+using Physics.Collisions.Relay.Collision2D;
 using Spawners;
+using Turret.Events;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +17,7 @@ namespace Turret
 		#region SerializeFields
 
 		[SerializeField] private Transform m_spawnPosition;
+		[SerializeField] private Collision2DRelay m_collision2DRelay;
 		[SerializeField] private Text m_projectileCountText;
 
 		#endregion
@@ -22,15 +25,22 @@ namespace Turret
 		#region PrivateFields
 
 		private ProjectileSpawner m_projectileSpawner;
+		private TurretEventBus m_turretEventBus;
+		private bool m_registeredToEvents;
 
 		#endregion
 
 		#region PublicMethods
 
-		public TurretSystem Inject(ProjectileSpawner projectileSpawner, int projectileCount)
+		public TurretSystem Inject(
+			ProjectileSpawner projectileSpawner,
+			int projectileCount,
+			TurretEventBus turretEventBus
+		)
 		{
 			m_projectileSpawner = projectileSpawner;
 			ProjectileCount = projectileCount;
+			m_turretEventBus = turretEventBus;
 
 			return this;
 		}
@@ -38,10 +48,22 @@ namespace Turret
 		public void Initialize()
 		{
 			UpdateProjectileCountText();
+
+			RegisterToEvents();
+		}
+
+		public void OnTearDown()
+		{
+			UnregisterFromEvents();
 		}
 
 		public void SpawnProjectile(Vector3 goalPosition)
 		{
+			if (ProjectileCount <= 0)
+			{
+				return;
+			}
+
 			Vector3 position = m_spawnPosition.position;
 			Vector3 forwardDirection = (goalPosition - position).normalized;
 
@@ -58,6 +80,38 @@ namespace Turret
 		#endregion
 
 		#region PrivateMethods
+
+		private void RegisterToEvents()
+		{
+			if (m_registeredToEvents)
+			{
+				return;
+			}
+
+			m_collision2DRelay.CollisionEnter2D += OnTurretHit;
+
+			m_registeredToEvents = true;
+		}
+
+		private void UnregisterFromEvents()
+		{
+			if (!m_registeredToEvents)
+			{
+				return;
+			}
+
+			m_collision2DRelay.CollisionEnter2D -= OnTurretHit;
+
+			m_registeredToEvents = false;
+		}
+
+		private void OnTurretHit(Collision2D collision2D)
+		{
+			ProjectileCount = 0;
+
+			m_turretEventBus.Publish(new TurretHitEvent(this));
+			UpdateProjectileCountText();
+		}
 
 		private void UpdateProjectileCountText()
 		{

@@ -4,7 +4,7 @@ using UI;
 
 namespace Level
 {
-	public class PointSystem
+	public class PointsSystem
 	{
 		#region Constants
 
@@ -26,7 +26,7 @@ namespace Level
 
 		#region Constructors
 
-		public PointSystem(
+		public PointsSystem(
 			BuildingManager buildingManager,
 			TurretManager turretManager,
 			UISystem uiSystem

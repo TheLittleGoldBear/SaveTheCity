@@ -13,18 +13,22 @@ namespace Physics.Collisions.Relay.Trigger2D
 
 		#endregion
 
-		#region PrivateMethods
+		#region ProtectedMethods
 
-		private void OnTriggerEntered2D(Collider2D col)
-		{ }
-
-		private void OnTriggerExited2D(Collider2D col)
-		{ }
-		
 		protected virtual bool CheckConditions(Collider2D col)
 		{
 			return true;
 		}
+
+		protected virtual void OnTriggerEntered2D(Collider2D col)
+		{ }
+
+		protected virtual void OnTriggerExited2D(Collider2D col)
+		{ }
+
+		#endregion
+
+		#region PrivateMethods
 
 		private void OnTriggerEnter2D(Collider2D col)
 		{

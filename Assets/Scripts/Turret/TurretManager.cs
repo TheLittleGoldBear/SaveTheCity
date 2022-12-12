@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using Projectile;
 using Spawners;
+using Turret.Events;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +8,12 @@ namespace Turret
 {
 	public class TurretManager : MonoBehaviour
 	{
+		#region Properties
+
+		public int TurretsCount => m_turretSystems.Count;
+
+		#endregion
+
 		#region SerializeFields
 
 		[SerializeField] private List<TurretSystem> m_turretSystems;
@@ -17,17 +23,68 @@ namespace Turret
 
 		#endregion
 
+		#region PrivateFields
+
+		private TurretEventBus m_turretEventBus;
+		private bool m_registeredToEvents;
+
+		#endregion
+
 		#region UnityMethods
 
-		
+		private void Update()
+		{
+			if (Mouse.current.leftButton.wasPressedThisFrame)
+			{
+				if (m_turretSystems.Count == 0)
+				{
+					return;
+				}
+
+				Vector3 position = m_camera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+				position.z = 0.0f;
+
+				TurretSystem turretSystem = GetClosetsTurret(position);
+
+				turretSystem.SpawnProjectile(position);
+
+				if (turretSystem.ProjectileCount <= 0)
+				{
+					m_turretSystems.Remove(turretSystem);
+				}
+			}
+		}
+
+		#endregion
+
+		#region PublicMethods
+
 		public void Initialize()
 		{
+			m_turretEventBus = new TurretEventBus();
+
 			for (int i = 0; i < m_turretSystems.Count; i++)
 			{
 				m_turretSystems[i]
-					.Inject(m_projectilePool, m_projectileCount)
+					.Inject(
+						m_projectilePool,
+						m_projectileCount,
+						m_turretEventBus
+					)
 					.Initialize();
 			}
+
+			RegisterToEvents();
+		}
+
+		public void OnTearDown()
+		{
+			for (int i = 0; i < m_turretSystems.Count; i++)
+			{
+				m_turretSystems[i].OnTearDown();
+			}
+
+			UnregisterFromEvents();
 		}
 
 		public int GetNotUsedProjectile()
@@ -42,32 +99,55 @@ namespace Turret
 			return notUsedProjectiles;
 		}
 
-		private void Update()
+		public Vector3 GetRandomTurretLocation()
 		{
-			if (Mouse.current.leftButton.wasPressedThisFrame)
+			if (m_turretSystems.Count == 0)
 			{
-				if (m_turretSystems.Count ==0)
-				{
-					return;
-				}
-				
-				Vector3 position = m_camera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-				position.z = 0.0f;
-
-				TurretSystem turretSystem = GetClosetsTurret(position);
-				
-				turretSystem.SpawnProjectile(position);
-
-				if (turretSystem.ProjectileCount <= 0)
-				{
-					m_turretSystems.Remove(turretSystem);
-				}
+				return Vector3.zero;
 			}
+
+			int index = Random.Range(0, m_turretSystems.Count);
+
+			return m_turretSystems[index]
+				.transform
+				.position;
 		}
 
 		#endregion
 
 		#region PrivateMethods
+
+		private void RegisterToEvents()
+		{
+			if (m_registeredToEvents)
+			{
+				return;
+			}
+
+			m_turretEventBus.Subscribe<TurretHitEvent>(OnTurretHit);
+
+			m_registeredToEvents = true;
+		}
+
+		private void UnregisterFromEvents()
+		{
+			if (!m_registeredToEvents)
+			{
+				return;
+			}
+
+			m_turretEventBus.Unsubscribe<TurretHitEvent>(OnTurretHit);
+
+			m_registeredToEvents = false;
+		}
+
+		private void OnTurretHit(TurretHitEvent turretHitEvent)
+		{
+			TurretSystem turretSystem = turretHitEvent.TurretSystem;
+
+			turretSystem.OnTearDown();
+			m_turretSystems.Remove(turretSystem);
+		}
 
 		private TurretSystem GetClosetsTurret(Vector3 position)
 		{

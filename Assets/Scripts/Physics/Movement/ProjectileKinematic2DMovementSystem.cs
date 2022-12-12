@@ -1,20 +1,20 @@
 using Projectile;
 
-namespace Physics
+namespace Physics.Movement
 {
 	public class ProjectileKinematic2DMovementSystem : Kinematic2DMovementSystem
 	{
 		#region PrivateFields
 
-		private AbstractProjectileSystem m_abstractProjectileSystem;
+		private AbstractProjectileSystem m_projectileSystem;
 
 		#endregion
 
 		#region PublicMethods
 
-		public void Inject(AbstractProjectileSystem abstractProjectileSystem)
+		public void Inject(AbstractProjectileSystem projectileSystem)
 		{
-			m_abstractProjectileSystem = abstractProjectileSystem;
+			m_projectileSystem = projectileSystem;
 		}
 
 		#endregion
@@ -25,7 +25,7 @@ namespace Physics
 		{
 			base.OnGoalReached();
 
-			m_abstractProjectileSystem.HitExplosion();
+			m_projectileSystem.OnExplosion();
 		}
 
 		#endregion

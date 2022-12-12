@@ -1,6 +1,5 @@
 using Enemy.Events;
 using Enemy.Pool;
-using Projectile;
 using Projectile.Pool;
 using UnityEngine;
 
@@ -29,6 +28,9 @@ namespace Level
 			m_projectilePool.Initialize();
 			m_enemyProjectilePool.Initialize();
 		}
+
+		public void OnTearDown()
+		{ }
 
 		#endregion
 	}

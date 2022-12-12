@@ -21,7 +21,7 @@ namespace Level
 
 		#region PrivateFields
 
-		private PointSystem m_pointSystem;
+		private PointsSystem m_pointsSystem;
 
 		#endregion
 
@@ -32,7 +32,7 @@ namespace Level
 			var enemyGoalPositionSystem = new EnemyGoalPositionSystem(m_buildingManager, m_turretManager);
 			var enemyProjectileEventBus = new EnemyProjectileEventBus();
 
-			m_pointSystem = new PointSystem(
+			m_pointsSystem = new PointsSystem(
 				m_buildingManager,
 				m_turretManager,
 				m_uiSystem
@@ -46,7 +46,7 @@ namespace Level
 				.Inject(
 					enemyGoalPositionSystem,
 					enemyProjectileEventBus,
-					m_pointSystem,
+					m_pointsSystem,
 					this
 				)
 				.Initialize();
@@ -55,13 +55,22 @@ namespace Level
 			m_buildingManager.Initialize();
 		}
 
+		private void OnDestroy()
+		{
+			m_buildingManager.OnTearDown();
+			m_turretManager.OnTearDown();
+			m_enemyManager.OnTearDown();
+			m_poolManager.OnTearDown();
+		}
+
 		#endregion
 
 		#region PublicMethods
 
 		public void FinishedLevel()
 		{
-			m_pointSystem.SummarizePoints();
+			m_pointsSystem.SummarizePoints();
+			m_uiSystem.DisplayGameOverView();
 		}
 
 		#endregion

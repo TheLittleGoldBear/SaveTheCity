@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace UI
@@ -7,6 +8,8 @@ namespace UI
 	{
 		#region SerializeFields
 
+		[SerializeField] private Button m_restartButton;
+		[SerializeField] private Text m_gameOverText;
 		[SerializeField] private Text m_pointsText;
 
 		#endregion
@@ -16,6 +19,17 @@ namespace UI
 		public void UpdatePoints(int points)
 		{
 			m_pointsText.text = points.ToString();
+		}
+
+		public void DisplayGameOverView()
+		{
+			m_gameOverText.gameObject.SetActive(true);
+			m_restartButton.gameObject.SetActive(true);
+		}
+
+		public void OnRestartButtonPressed()
+		{
+			SceneManager.LoadScene(0);
 		}
 
 		#endregion

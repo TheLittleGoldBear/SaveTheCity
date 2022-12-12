@@ -17,9 +17,7 @@ namespace Enemy
 
 		private List<EnemyProjectileSystem> m_enemyProjectileSystems = new();
 		private EnemyProjectileEventBus m_enemyProjectileEventBus;
-		private PointSystem m_pointSystem;
-
-		//Zmienić na event
+		private PointsSystem m_pointsSystem;
 		private LevelManager m_levelManager;
 
 		private bool m_registeredToEvents;
@@ -31,12 +29,12 @@ namespace Enemy
 		public EnemyManager Inject(
 			EnemyGoalPositionSystem enemyGoalPositionSystem,
 			EnemyProjectileEventBus enemyProjectileEventBus,
-			PointSystem pointSystem,
+			PointsSystem pointsSystem,
 			LevelManager levelManager
 		)
 		{
 			m_enemyProjectileEventBus = enemyProjectileEventBus;
-			m_pointSystem = pointSystem;
+			m_pointsSystem = pointsSystem;
 			m_levelManager = levelManager;
 
 			m_enemyWaveSpawner.Inject(enemyGoalPositionSystem, m_enemyProjectileSystems);
@@ -53,6 +51,8 @@ namespace Enemy
 
 		public void OnTearDown()
 		{
+			m_enemyWaveSpawner.OnTearDown();
+
 			UnregisterFromEvents();
 		}
 
@@ -84,7 +84,7 @@ namespace Enemy
 				return;
 			}
 
-			m_pointSystem.ShootedProjectile();
+			m_pointsSystem.ShootedProjectile();
 
 			RemoveEnemyProjectileSystem(shootedEnemyProjectileEvent.EnemyProjectileSystem);
 		}

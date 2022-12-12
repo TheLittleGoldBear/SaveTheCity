@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Physics
+namespace Physics.Movement
 {
 	public abstract class AbstractMovementSystem : MonoBehaviour
 	{
@@ -18,19 +18,8 @@ namespace Physics
 
 		#region ProtectedFields
 
-		protected bool m_goalReached;
-
 		protected Vector3 m_goalPosition;
-
-		#endregion
-
-		#region UnityMethods
-
-		private void Awake()
-		{
-			IsEnabled = false;
-			OnAwake();
-		}
+		protected bool m_goalReached;
 
 		#endregion
 
@@ -55,9 +44,6 @@ namespace Physics
 
 		protected abstract void MoveToGoalPosition(float deltaTime);
 		protected abstract void CheckIfGoalReached();
-
-		protected virtual void OnAwake()
-		{ }
 
 		#endregion
 	}

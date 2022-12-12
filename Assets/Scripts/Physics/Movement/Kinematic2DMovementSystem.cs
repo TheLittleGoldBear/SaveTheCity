@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Physics
+namespace Physics.Movement
 {
 	public class Kinematic2DMovementSystem : AbstractRigidbody2DMovementSystem
 	{
@@ -9,10 +9,15 @@ namespace Physics
 		protected override void MoveToGoalPosition(float deltaTime)
 		{
 			Transform rigidbodyTransform = m_rigidbody.transform;
-			m_rigidbody.MovePosition(rigidbodyTransform.position + m_speed * deltaTime * rigidbodyTransform.up);
+			Vector3 movePosition3D = rigidbodyTransform.position + m_speed * deltaTime * rigidbodyTransform.up;
+			var movePosition2D = new Vector2(movePosition3D.x, movePosition3D.y);
+			
+			m_rigidbody.MovePosition(movePosition2D);
 		}
 
 		#endregion
+
+		#region PrivateMethods
 
 		#region UnityMethods
 
@@ -26,6 +31,8 @@ namespace Physics
 			MoveToGoalPosition(Time.deltaTime);
 			CheckIfGoalReached();
 		}
+
+		#endregion
 
 		#endregion
 	}

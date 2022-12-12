@@ -1,7 +1,6 @@
 using Enemy;
 using Enemy.Events;
 using Enemy.Pool;
-using Projectile;
 using UnityEngine;
 
 namespace Factories
@@ -24,7 +23,9 @@ namespace Factories
 		{
 			EnemyProjectileSystem enemyProjectileSystem = Instantiate(m_enemyProjectileSystemPrefab, root);
 
-			enemyProjectileSystem.Inject(enemyProjectileEventBus, projectilePool);
+			enemyProjectileSystem
+				.Inject(enemyProjectileEventBus, projectilePool)
+				.Initialize();
 
 			return enemyProjectileSystem;
 		}

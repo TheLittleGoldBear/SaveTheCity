@@ -9,8 +9,7 @@ namespace Pooling
 		void Insert(T objectToInsert);
 		void Release(T objectToRelease);
 		void ReleaseAll();
-		// void Remove(T objectToRemove);
-		// void Shutdown();
+		void Shutdown();
 
 		#endregion
 	}

@@ -6,6 +6,12 @@ namespace Building
 {
 	public class BuildingManager : MonoBehaviour
 	{
+		#region Properties
+
+		public int BuildingsCount => m_buildingSystems.Count;
+
+		#endregion
+
 		#region SerializeFields
 
 		[SerializeField] private List<BuildingSystem> m_buildingSystems;
@@ -37,6 +43,11 @@ namespace Building
 
 		public void OnTearDown()
 		{
+			for (int i = 0; i < m_buildingSystems.Count; i++)
+			{
+				m_buildingSystems[i].OnTearDown();
+			}
+
 			UnregisterFromEvents();
 		}
 
@@ -90,8 +101,9 @@ namespace Building
 		private void OnBuildingDestroyedEvent(BuildingDestroyedEvent buildingDestroyedEvent)
 		{
 			BuildingSystem destroyedBuildingSystem = buildingDestroyedEvent.BuildingSystem;
-			m_buildingSystems.Remove(destroyedBuildingSystem);
 			destroyedBuildingSystem.OnTearDown();
+			m_buildingSystems.Remove(destroyedBuildingSystem);
+
 			Destroy(destroyedBuildingSystem.gameObject);
 		}
 

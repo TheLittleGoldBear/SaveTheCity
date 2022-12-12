@@ -14,20 +14,16 @@ namespace Projectile
 
 		#region PrivateFields
 
-		private ProjectileExplosionSystem m_projectileExplosionSystem;
+		private PropagateExplosionSystem m_propagateExplosionSystem;
 
 		#endregion
 
 		#region PublicMethods
 
-		public void Initialize()
+		public override void Initialize()
 		{
-			m_projectileExplosionSystem = new ProjectileExplosionSystem(this, m_collision2DRelay, m_detectionTrigger2DRelay);
-		}
-		
-		public void OnTearDown()
-		{
-			m_projectileExplosionSystem.OnTearDown();
+			base.Initialize();
+			m_propagateExplosionSystem = new PropagateExplosionSystem(m_detectionTrigger2DRelay);
 		}
 
 		public ProjectileSystem Inject(ProjectilePool projectilePool)
@@ -35,6 +31,30 @@ namespace Projectile
 			base.Inject(projectilePool);
 
 			return this;
+		}
+
+		public override void OnExplosion()
+		{
+			m_propagateExplosionSystem.OnPropagateExplosion();
+			ReleaseToPool();
+		}
+
+		#endregion
+
+		#region ProtectedMethods
+
+		protected override void OnTearDown()
+		{
+			base.OnTearDown();
+
+			m_propagateExplosionSystem.OnTearDown();
+		}
+
+		protected override void CallOnPoolShutdown()
+		{
+			base.CallOnPoolShutdown();
+
+			OnTearDown();
 		}
 
 		#endregion
